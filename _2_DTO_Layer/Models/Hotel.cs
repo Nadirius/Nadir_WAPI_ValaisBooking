@@ -8,21 +8,8 @@ namespace DTO
     [Table("Hotel")]
     public class Hotel
     {
-        #region Hotel persisted properties
 
-            #region Data base normalisation properties
-
-                #region PK Hotel - Identity
-
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int? IdHotel { get; set; }
-
-                #endregion
-
-            #endregion
-
-            #region Hotel state properties
+        public int? HotelId { get; set; }
 
         [Required(ErrorMessage = "Hotel name is required")]
         [MaxLength(100)]
@@ -59,28 +46,11 @@ namespace DTO
         [MaxLength(100)]
         public string Website { get; set; }
 
-        #endregion
-
-        #endregion
-
-        #region Hotel Runtime Links
-
-            #region Hotel has Many Room (s)
-
         public ICollection<Room> Rooms { get; set; }
-
-            #endregion
-
-        #endregion
-
-        #region Hotel Validation logic
 
         public bool HotelCategoryValidation(int? minStar, int? maxStar)
         {
             return Category >= minStar && Category <= maxStar;
         }
-
-        #endregion
-
     }
 }

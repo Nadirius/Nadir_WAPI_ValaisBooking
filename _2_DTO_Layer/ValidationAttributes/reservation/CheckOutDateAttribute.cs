@@ -4,21 +4,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DTO
 {
-    public class CheckOutDate : ValidationAttribute
+    public class CheckOutDateAttribute : ValidationAttribute
     {
-        #region Validation reservation checkout date - properties
-
         public int DefaultDaysover { get; private set; }
 
-        #endregion
-
-        #region Validation reservation checkout date - constructors
-
-        public CheckOutDate(int daysover) { DefaultDaysover = daysover; }
-
-        #endregion
-
-        #region Validation reservation checkout date - process
+        public CheckOutDateAttribute(int daysover) { DefaultDaysover = daysover; }
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
@@ -29,7 +19,5 @@ namespace DTO
             }
             return ValidationResult.Success;
         }
-
-        #endregion
     }
 }

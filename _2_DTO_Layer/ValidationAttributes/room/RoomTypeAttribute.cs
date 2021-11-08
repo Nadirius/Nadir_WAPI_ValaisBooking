@@ -3,9 +3,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DTO
 {
-    public class RoomType : ValidationAttribute
+    public class RoomTypeAttribute : ValidationAttribute
     {
-        #region Validation room type - process
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
@@ -16,7 +15,5 @@ namespace DTO
             }
             return ValidationResult.Success;
         }
-
-        #endregion
     }
 }

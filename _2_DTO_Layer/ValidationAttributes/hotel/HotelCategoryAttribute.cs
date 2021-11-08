@@ -3,27 +3,18 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DTO
 {
-    class HotelCategory : ValidationAttribute
+    class HotelCategoryAttribute : ValidationAttribute
     {
-        #region Validation hotel category - properties
 
         private int? DefaultminStar { get; set; } = 1;
         private int? DefaultmaxStar { get; set; } = 5;
 
-        #endregion
-
-        #region Validation hotel category - constructors
-
-        public HotelCategory(int minStar, int maxStar) {
+        public HotelCategoryAttribute(int minStar, int maxStar) {
             DefaultminStar = minStar;
             DefaultmaxStar = maxStar;
         }
 
-        public HotelCategory(){}
-
-        #endregion
-
-        #region Validation hotel category - process
+        public HotelCategoryAttribute(){}
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
@@ -34,7 +25,5 @@ namespace DTO
             }
             return ValidationResult.Success;
         }
-
-        #endregion
     }
 }

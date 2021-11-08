@@ -47,7 +47,7 @@ namespace WAPI
         [HttpPut("{id}")]
         public async Task<IActionResult> PutRoom(int? id, Room room)
         {
-            if (id != room.IdRoom)
+            if (id != room.RoomId)
             {
                 return BadRequest();
             }
@@ -81,7 +81,7 @@ namespace WAPI
             _context.Rooms.Add(room);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetRoom", new { id = room.IdRoom }, room);
+            return CreatedAtAction("GetRoom", new { id = room.RoomId }, room);
         }
 
         // DELETE: api/Rooms/5
@@ -102,7 +102,7 @@ namespace WAPI
 
         private bool RoomExists(int? id)
         {
-            return _context.Rooms.Any(e => e.IdRoom == id);
+            return _context.Rooms.Any(e => e.RoomId == id);
         }
     }
 }

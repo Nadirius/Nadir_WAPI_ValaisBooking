@@ -9,28 +9,10 @@ namespace DTO
     [Table("Room")]
     public class Room
     {
-        #region Room persisted properties
-
-            #region Data base normalisation properties
-
-                #region PK Room - Identity
-
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int? IdRoom { get; set; }
-
-                #endregion
-
-                #region FK to Hotel - Room belongs to one Hotel
+        public int? RoomId { get; set; }
 
         [ForeignKey("Hotel")]
-        public int? IdHotel { get; set; }
-
-                #endregion
-
-            #endregion
-
-            #region Room state properties
+        public int? HotelId { get; set; }
 
         public int? Number { get; set; }
 
@@ -42,7 +24,7 @@ namespace DTO
         [RoomType]
         public int? Type { get; set; }
 
-        [Required(ErrorMessage = "Room Price is required")]
+        [Required(ErrorMessage = "Room price is required")]
         [Column(TypeName = "decimal(5,2)")]
         public decimal? Price { get; set; }
 
@@ -52,40 +34,16 @@ namespace DTO
         [Required(ErrorMessage = "Find out if Room has hair dryer is required")]
         public bool HasHairDryer { get; set; }
 
-            #endregion
-
-        #endregion
-
-        #region Room Runtime Links
-
-            #region Room belongs to one Hotel 
-
         public Hotel Hotel { get; set; }
-
-            #endregion
-
-            #region Room has many Picture (s)
 
         public ICollection<Picture> Pictures { get; set; }
 
-            #endregion
-
-            #region Room has many Reservation (s)
-
         public ICollection<Reservation> Reservations { get; set; }
-
-            #endregion
-
-        #endregion
-
-        #region Room Validation logic
 
         public bool RoomTypeValidation()
         {
             return Type >= 1 && Type <= Enum.GetValues(typeof(EnumeratedRoomTypes)).Length;
         }
-
-        #endregion
 
     }
 }

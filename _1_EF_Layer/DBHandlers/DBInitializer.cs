@@ -9,7 +9,7 @@ namespace EF
 {
     static class DBInitializer
     {
-        private static IDictionary<string, (string, int, int)[]> _data = new Dictionary<string, (string, int, int)[]>()
+        private static readonly IDictionary<string, (string, int, int)[]> _data = new Dictionary<string, (string, int, int)[]>()
         {
             {"Martigny", new []{("Octodure",4,5),("Constantin Palace",2,7) }},
             {"Sion", new [] { ("Valais Palace", 3, 8), ("Grand Duc", 4, 2) }},
@@ -19,18 +19,16 @@ namespace EF
 
         public static void InitDB()
         {
-            using (WAPIContext ctx = new WAPIContext())
+            using WAPIContext ctx = new();
+            //ctx.Database.EnsureDeleted();
+            if (ctx.Database.EnsureCreated())
             {
-                //ctx.Database.EnsureDeleted();
-                if (ctx.Database.EnsureCreated())
-                {
-                    //Console.WriteLine("Database has been created");
-                    Seed_data(ctx);
-                }
-                else
-                    //Console.WriteLine("Database already exists");
-                ctx.SaveChanges();
+                //Console.WriteLine("Database has been created");
+                Seed_data(ctx);
             }
+            else
+                //Console.WriteLine("Database already exists");
+                ctx.SaveChanges();
         }
 
         private static void Seed_data(WAPIContext ctx)
@@ -46,7 +44,7 @@ namespace EF
             foreach (var v in d.Value)
             {
                 (string HotelName, int nbrSingle, int nbrDouble) = v;
-                Hotel hotel = new Hotel()
+                Hotel hotel = new()
                 {
                     Name = HotelName,
                     Description = "Magnifique",
@@ -59,10 +57,10 @@ namespace EF
                     Website = $"www.{HotelName.Replace(" ", "")}.ch"
                 };
                 ctx.Hotels.Add(hotel);
-                hotel.IdHotel = ctx.Hotels.Where(h => h.Name.Equals(HotelName)).Select(h => h.IdHotel).FirstOrDefault();
+                hotel.HotelId = ctx.Hotels.Where(h => h.Name.Equals(HotelName)).Select(h => h.HotelId).FirstOrDefault();
                 for (int i = 1; i <= nbrSingle + nbrDouble; i++)
                 {
-                    Room room = new Room()
+                    Room room = new()
                     {
                         Number = i,
                         Description = "Waww!!!",
@@ -70,17 +68,17 @@ namespace EF
                         Price = decimal.Parse(new Xeger(@"[1-2][0-5][0-9]").Generate().ToString()),
                         HasTV = new Random().Next(2) == 1,
                         HasHairDryer = new Random().Next(2) == 1,
-                        IdHotel = hotel.IdHotel,
+                        HotelId = hotel.HotelId,
                         Hotel = hotel
                     };
                     ctx.Rooms.Add(room);
-                    room.IdRoom = ctx.Rooms.Where(r => (r.Hotel.Name + r.Number).Equals(hotel.Name + i)).Select(r => r.IdRoom).FirstOrDefault();
+                    room.RoomId = ctx.Rooms.Where(r => (r.Hotel.Name + r.Number).Equals(hotel.Name + i)).Select(r => r.RoomId).FirstOrDefault();
                     for (int j = 1; j <= 3; j++)
                     {
                         ctx.Pictures.Add(new Picture()
                         {
                             Url = "www.google.com",
-                            IdRoom = room.IdRoom,
+                            RoomId = room.RoomId,
                             Room = room
                         }); ;
                     }

@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace DTO
 {
-    public class HotelLocation : ValidationAttribute
+    public class HotelLocationAttribute : ValidationAttribute
     {
         public string [] locations { get; set; }
 
-        public HotelLocation(string[] locations)
+        public HotelLocationAttribute(string[] locations)
         {
 
         }

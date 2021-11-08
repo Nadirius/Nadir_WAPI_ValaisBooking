@@ -47,7 +47,7 @@ namespace WAPI
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPicture(int? id, Picture picture)
         {
-            if (id != picture.IdPicture)
+            if (id != picture.PictureId)
             {
                 return BadRequest();
             }
@@ -81,7 +81,7 @@ namespace WAPI
             _context.Pictures.Add(picture);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetPicture", new { id = picture.IdPicture }, picture);
+            return CreatedAtAction("GetPicture", new { id = picture.PictureId }, picture);
         }
 
         // DELETE: api/Pictures/5
@@ -102,7 +102,7 @@ namespace WAPI
 
         private bool PictureExists(int? id)
         {
-            return _context.Pictures.Any(e => e.IdPicture == id);
+            return _context.Pictures.Any(e => e.PictureId == id);
         }
     }
 }
